@@ -1,1 +1,11 @@
-<p>login works!</p>
+<h1>Login</h1>
+
+<form (ngSubmit)="loginUser()" [formGroup]="userLoginForm">
+  <tr>
+    <input type="text" formControlName="username" placeholder="username">
+  </tr>
+  <tr>
+    <input type="text" formControlName="password" placeholder="enter your password">
+  </tr>
+  <button type="submit" [disabled]="!userLoginForm.valid">Log in</button>
+</form>
