@@ -1,5 +1,7 @@
 <h1>Login</h1>
 
+<h3 *ngIf="error"> {{errorMessage}}</h3>
+
 <form (ngSubmit)="loginUser()" [formGroup]="userLoginForm">
   <tr>
     <input type="text" formControlName="username" placeholder="username">
@@ -9,3 +11,4 @@
   </tr>
   <button type="submit" [disabled]="!userLoginForm.valid">Log in</button>
 </form>
+

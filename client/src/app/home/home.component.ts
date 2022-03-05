@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {Subscription} from "rxjs";
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-home',
@@ -8,9 +10,22 @@ import {Router} from "@angular/router";
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  quote: string;
+  username: string;
+  subscription: Subscription;
+
+  constructor(private router: Router,
+              private userService: UserService) {}
 
   ngOnInit(): void {
+    //TODO UNCOMMENT THIS TO GET QUOTE
+    // this.sudokuService.getQuote().then(q => this.quote = q.quote);
+
+    if (this.userService.getUser()) {
+      this.username = this.userService.getUser()
+    } else {
+      this.username = 'guest';
+    }
   }
 
   login() {
@@ -23,5 +38,13 @@ export class HomeComponent implements OnInit {
 
   newGame() {
     this.router.navigate(['/sudoku', 'username'])
+  }
+
+  logOut() {
+    this.userService.logOut();
+    this.router.navigate(['/'])
+      .then(() => {
+        window.location.reload();
+      });
   }
 }

@@ -11,6 +11,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {RouterModule} from "@angular/router";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SudokuService} from "./sudoku.service";
+import {UserService} from "./user.service";
+import { PuzzleComponent } from './sudoku/puzzle.component';
 
 const appRoutes = [
   {path:'', component:HomeComponent},
@@ -28,7 +30,8 @@ const appRoutes = [
     RegisterComponent,
     HomeComponent,
     SudokuComponent,
-    UserdetailsComponent
+    UserdetailsComponent,
+    PuzzleComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,10 @@ const appRoutes = [
     RouterModule.forRoot(appRoutes),
     ReactiveFormsModule
   ],
-  providers: [SudokuService],
+  providers: [
+    SudokuService,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

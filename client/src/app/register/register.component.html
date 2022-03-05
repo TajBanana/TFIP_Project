@@ -1,1 +1,11 @@
 <h1>Register</h1>
+<p *ngIf="error">user already exists, please try another username</p>
+<form (ngSubmit)="registerUser()" [formGroup]="registerUserForm">
+  <tr>
+    <input type="text" formControlName="username" placeholder="username">
+  </tr>
+  <tr>
+    <input type="text" formControlName="password" placeholder="enter your password">
+  </tr>
+  <button type="submit" [disabled]="!registerUserForm.valid">Register</button>
+</form>

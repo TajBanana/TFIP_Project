@@ -15,10 +15,17 @@ public class UserRepository {
     private static final String SQL_COMPARE_PASSWORDS_BY_USERNAME =
             "select count(*) as user_count from userlist where username = ? and password = sha1(?)";
 
+    private static final String SQL_REGISTER_USER =
+            "insert into userlist(username, password) values(?,sha1(?))";
+
     private JdbcTemplate jdbcTemplate;
 
     public UserRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public boolean registerUser(String username, String password) {
+        return jdbcTemplate.update(SQL_REGISTER_USER, username, password) > 0;
     }
 
     public Optional<User> findUserByName(String username) {

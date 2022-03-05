@@ -6,10 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 
-import static tajbanana.sudokuserver.repositories.SQL.SQL_INSERT_SEED;
-
 @Repository
 public class SeedRepository {
+
+      final String SQL_INSERT_SEED =
+            "insert into seed(seed, difficulty) values(?,?)";
+
     private final JdbcTemplate jdbcTemplate;
 
     public SeedRepository(JdbcTemplate jdbcTemplate) {
@@ -18,7 +20,7 @@ public class SeedRepository {
 
     private static final String[] seedFileName = {"simple", "easy", "intermediate", "expert"};
 
-    public boolean createSeedDB() {
+    public void createSeedDB() {
         try {
             for (String difficulty : seedFileName) {
 
@@ -41,8 +43,6 @@ public class SeedRepository {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
 }

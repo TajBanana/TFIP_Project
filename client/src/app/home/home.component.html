@@ -1,11 +1,21 @@
+
+
 <div class="flex-parent">
   <div class="flex-child-first new-button">
     <button  type="button" (click)="newGame()">New game</button>
   </div>
-  <div class="flex-child-second">
+  <div class="flex-child-second" *ngIf="username == 'guest'">
     <button class="login-button" type="button" (click)="login()">Login</button>
     <button class="register-button" type="button" (click)="register()">Register</button>
   </div>
+  <div *ngIf="username != 'guest' ">
+    <span>{{username}}</span>
+    <button type="button" (click)="logOut()">log out</button>
+  </div>
+</div>
+
+<div>
+  <h3> {{quote}} </h3>
 </div>
 
 

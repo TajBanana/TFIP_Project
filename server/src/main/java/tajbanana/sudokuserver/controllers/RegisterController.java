@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @RestController
-public class AuthenticateController {
+public class RegisterController {
 
     @Autowired
     AuthenticateService authSvc;
@@ -26,40 +26,32 @@ public class AuthenticateController {
     @Autowired
     UserRepository userRepository;
 
-    @PostMapping(path = "/authenticate",
+    @PostMapping(path = "/register",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> postAuthenticate(@RequestBody String body) {
         JsonObject obj;
 
         try {
-
             JsonReader reader = Json.createReader(new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8)));
             obj = reader.readObject();
 
 //            Check for existing user
             if (userRepository.findUserByName(obj.getString("username")).isEmpty()) {
-
-                JsonObject noUser = Json.createObjectBuilder()
-                        .add("subject","error")
-                        .add("token","no such user, please sign up :)")
+                JsonObject registerSuccess = Json.createObjectBuilder()
+                        .add("subject","success")
+                        .add("token",obj.getString("username") + " successfully registered")
                         .build();
-
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(noUser.toString());
+                userRepository.registerUser(obj.getString("username"), obj.getString("password"));
+                return ResponseEntity.ok(registerSuccess.toString());
             }
-
-//            Authenticate login details
-            Optional<JsonObject> opt = authSvc.authenticate(obj.getString("username"), obj.getString("password"));
-            if (opt.isPresent())
-                return ResponseEntity.ok(opt.get().toString());
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 //        response for unauthorized
         obj = Json.createObjectBuilder()
                 .add("subject","error")
-                .add("token","wrong password, please try again")
+                .add("token","user already exists")
                 .build();
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(obj.toString());

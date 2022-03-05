@@ -4,7 +4,7 @@ CREATE DATABASE sudoku;
 
 CREATE TABLE userlist (
     username VARCHAR(24),
-    password VARCHAR(64),
+    password VARCHAR(40),
     PRIMARY KEY (username)
 );
 
