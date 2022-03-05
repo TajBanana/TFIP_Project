@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
 
   userLoginForm!: FormGroup;
   userLoginResponse: string = '';
+  userLoginResponseJson: JSON;
 
   constructor(private router: Router,
               private fb: FormBuilder,
@@ -28,7 +29,13 @@ export class LoginComponent implements OnInit {
     await this.sudokuService
       .postUserLogin(userDetails)
       .then(r => this.userLoginResponse = r);
+
     console.info(this.userLoginResponse);
+
+    this.userLoginResponseJson = JSON.parse(this.userLoginResponse);
+    console.info(this.userLoginResponseJson.subject)
+
+
     this.userLoginForm.reset();
     this.home();
   }
