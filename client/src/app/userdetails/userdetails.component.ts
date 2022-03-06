@@ -16,9 +16,9 @@ export class UserdetailsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.userService.getUserProfile(localStorage.getItem("auth-user")).then(
       r => {
-        console.log('entered then of promise')
+        // console.log('entered then of promise')
         this.puzzleList = r
-        console.log('set puzzlelist')
+        // console.log('set puzzlelist')
         console.log(this.puzzleList)
       })
   }

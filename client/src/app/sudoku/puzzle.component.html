@@ -1,1 +1,19 @@
-<p>puzzle works!</p>
+<h1 *ngIf="puzzle">{{puzzle.difficulty}}</h1>
+<hr>
+<div *ngIf="!(puzzle && giveUp)">
+  <h1 *ngFor="let row of puzzle.puzzle; index as i">
+  <span *ngFor="let row of puzzle.puzzle; index as j">
+    {{puzzle.puzzle[i][j]}}
+  </span>
+  </h1>
+</div>
+
+<button *ngIf="!giveUp" type="button" (click)="sudokuSolve()">i give up :(</button>
+
+<div *ngIf="giveUp">
+  <h1 *ngFor="let row of sudokuSolution.solution; index as i">
+  <span *ngFor="let row of sudokuSolution.solution; index as j">
+    {{sudokuSolution.solution[i][j]}}
+  </span>
+  </h1>
+</div>

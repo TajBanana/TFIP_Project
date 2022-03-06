@@ -19,6 +19,7 @@ const appRoutes = [
   {path:'login', component: LoginComponent},
   {path:'register', component: RegisterComponent},
   {path:'sudoku/:username', component: SudokuComponent},
+  {path:'sudoku/'+':username'+'/:difficulty', component: PuzzleComponent},
   {path:'secure/:username', component:UserdetailsComponent},
   {path:'**', component: HomeComponent}
 ]

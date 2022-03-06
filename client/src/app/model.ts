@@ -9,8 +9,12 @@ export interface LoginResponse {
 }
 
 export interface SudokuPuzzle {
-  puzzle: string;
+  puzzle: number [][];
   difficulty: string
+}
+
+export interface SudokuSolution {
+  solution: number [][]
 }
 
 export interface Quote {

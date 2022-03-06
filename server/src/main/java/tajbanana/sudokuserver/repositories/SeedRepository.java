@@ -2,15 +2,22 @@ package tajbanana.sudokuserver.repositories;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
+import tajbanana.sudokuserver.models.Puzzle;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @Repository
 public class SeedRepository {
 
       final String SQL_INSERT_SEED =
             "insert into seed(seed, difficulty) values(?,?)";
+//      final String SQL_GET_PUZZLE_BY_DIFFICULTY = "select * from seed where difficulty = '?' ";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -19,6 +26,17 @@ public class SeedRepository {
     }
 
     private static final String[] seedFileName = {"simple", "easy", "intermediate", "expert"};
+
+    public Puzzle getPuzzlesByDifficulty(String difficulty) {
+        List<Puzzle> puzzleList = new ArrayList<>();
+        final SqlRowSet rs = jdbcTemplate.queryForRowSet(
+                        "select * from seed where difficulty = '" + difficulty +"'");
+        while (rs.next()) {
+            puzzleList.add(Puzzle.populate(rs));
+        }
+        Random rand = new Random();
+        return puzzleList.get(rand.nextInt(puzzleList.size()));
+    }
 
     public void createSeedDB() {
         try {
