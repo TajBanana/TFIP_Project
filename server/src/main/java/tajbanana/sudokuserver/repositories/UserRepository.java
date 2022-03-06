@@ -3,8 +3,11 @@ package tajbanana.sudokuserver.repositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
+import tajbanana.sudokuserver.models.Puzzle;
 import tajbanana.sudokuserver.models.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,6 +21,9 @@ public class UserRepository {
     private static final String SQL_REGISTER_USER =
             "insert into userlist(username, password) values(?,sha1(?))";
 
+    private static final String SQL_GET_USER_PUZZLES =
+            "select * from ?";
+
     private JdbcTemplate jdbcTemplate;
 
     public UserRepository(JdbcTemplate jdbcTemplate) {
@@ -26,6 +32,20 @@ public class UserRepository {
 
     public boolean registerUser(String username, String password) {
         return jdbcTemplate.update(SQL_REGISTER_USER, username, password) > 0;
+    }
+
+    public void createUserTable(String username) {
+        jdbcTemplate.execute(
+                "create table " + username + " (seed VARCHAR(81), difficulty VARCHAR(12), PRIMARY KEY(seed))");
+    }
+
+    public Optional<List<Puzzle>> getUserPuzzles(String username) {
+        List<Puzzle> puzzleList = new ArrayList<>();
+        final SqlRowSet rs = jdbcTemplate.queryForRowSet("select * from " + username);
+        while (rs.next()) {
+            puzzleList.add(Puzzle.populate(rs));
+        }
+        return Optional.of(puzzleList);
     }
 
     public Optional<User> findUserByName(String username) {

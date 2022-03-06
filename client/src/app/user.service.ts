@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {LoginDetails, LoginResponse} from "./model";
+import {LoginDetails, LoginResponse, SudokuPuzzle} from "./model";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {lastValueFrom} from "rxjs";
 
@@ -12,6 +12,18 @@ export class UserService {
 
 
   constructor(private http: HttpClient) {
+  }
+
+  getUserProfile(username: string): Promise<SudokuPuzzle[]> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', 'Bearer ' + localStorage.getItem('auth-token'))
+
+    return lastValueFrom(
+      this.http.get<SudokuPuzzle[]>(
+        '/secure/' + username,
+        {headers}
+      ))
   }
 
   logOut() {

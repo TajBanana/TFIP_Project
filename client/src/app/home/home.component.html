@@ -1,5 +1,3 @@
-
-
 <div class="flex-parent">
   <div class="flex-child-first new-button">
     <button  type="button" (click)="newGame()">New game</button>
@@ -9,7 +7,7 @@
     <button class="register-button" type="button" (click)="register()">Register</button>
   </div>
   <div *ngIf="username != 'guest' ">
-    <span>{{username}}</span>
+    <a (click)="userProfile()">{{username}}</a>
     <button type="button" (click)="logOut()">log out</button>
   </div>
 </div>

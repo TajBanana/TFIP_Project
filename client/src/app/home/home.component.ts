@@ -47,4 +47,8 @@ export class HomeComponent implements OnInit {
         window.location.reload();
       });
   }
+
+  userProfile() {
+    this.router.navigate(['/secure', 'username'])
+  }
 }

@@ -43,6 +43,8 @@ public class RegisterController {
                         .add("token",obj.getString("username") + " successfully registered")
                         .build();
                 userRepository.registerUser(obj.getString("username"), obj.getString("password"));
+                userRepository.createUserTable(obj.getString("username"));
+
                 return ResponseEntity.ok(registerSuccess.toString());
             }
         } catch (Exception ex) {

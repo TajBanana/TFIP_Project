@@ -23,6 +23,8 @@ public class AuthenticateService {
 
     @PostConstruct
     public void init() {
+
+//        TODO REPLACE PASSPHRASE WITH ENV VAR
         String passphrase = "v9y$B&E)H@McQfTjWnZr4u7x!z%C*F-J";
         System.out.println("pass phrase >>> " + passphrase);
 

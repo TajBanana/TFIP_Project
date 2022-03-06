@@ -1,1 +1,12 @@
 <p>userdetails works!</p>
+
+<table>
+  <tr>
+    <th>Puzzle</th>
+    <th>Difficulty</th>
+  </tr>
+  <tr *ngFor="let puzzle of puzzleList">
+    <th>{{puzzle.puzzle}}</th>
+    <th>{{puzzle.difficulty}}</th>
+  </tr>
+</table>
