@@ -1,5 +1,6 @@
 package tajbanana.sudokuserver.controllers;
 
+import com.google.j2objc.annotations.AutoreleasePool;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tajbanana.sudokuserver.repositories.UserRepository;
 import tajbanana.sudokuserver.services.AuthenticateService;
+import tajbanana.sudokuserver.services.EmailService;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
@@ -25,6 +27,9 @@ public class RegisterController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    EmailService emailService;
 
     @PostMapping(path = "/register",
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -45,6 +50,12 @@ public class RegisterController {
                 userRepository.registerUser(obj.getString("username"), obj.getString("password"));
                 userRepository.createUserTable(obj.getString("username"));
                 System.out.println("creating user table");
+
+                try {
+                    emailService.sendEmail();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 return ResponseEntity.ok(registerSuccess.toString());
             }

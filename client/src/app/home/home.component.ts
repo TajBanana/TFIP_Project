@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {UserService} from "../user.service";
+import {SudokuService} from "../sudoku.service";
 
 @Component({
   selector: 'app-home',
@@ -15,11 +16,14 @@ export class HomeComponent implements OnInit {
   subscription: Subscription;
 
   constructor(private router: Router,
-              private userService: UserService) {}
+              private userService: UserService,
+              private sudokuService: SudokuService
+              ) {}
 
   ngOnInit(): void {
-    //TODO UNCOMMENT THIS TO GET QUOTE
-    // this.sudokuService.getQuote().then(q => this.quote = q.quote);
+    // TODO UNCOMMENT THIS TO GET QUOTE
+/*    this.sudokuService.getQuote()
+      .then(q => this.quote = q.quote);*/
 
     if (this.userService.getUser()) {
       this.username = this.userService.getUser()

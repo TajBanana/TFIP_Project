@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import tajbanana.sudokuserver.models.Puzzle;
 import tajbanana.sudokuserver.repositories.UserRepository;
 
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
