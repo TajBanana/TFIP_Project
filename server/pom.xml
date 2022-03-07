@@ -77,6 +77,33 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.2</version>
         </dependency>
+
+
+        <!-- Sudoku Image Solver libraries -->
+        <!-- https://mvnrepository.com/artifact/org.openpnp/opencv -->
+        <dependency>
+            <groupId>org.openpnp</groupId>
+            <artifactId>opencv</artifactId>
+            <version>4.5.1-2</version>
+        </dependency>
+
+        <!-- DL4J libraries -->
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-native-platform</artifactId>
+            <version>1.0.0-M2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-core</artifactId>
+            <version>1.0.0-M2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cassandra</groupId>
+            <artifactId>cassandra-all</artifactId>
+            <version>4.0.3</version>
+        </dependency>
+
     </dependencies>
 
     <build>

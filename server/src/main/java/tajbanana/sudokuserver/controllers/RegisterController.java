@@ -44,6 +44,7 @@ public class RegisterController {
                         .build();
                 userRepository.registerUser(obj.getString("username"), obj.getString("password"));
                 userRepository.createUserTable(obj.getString("username"));
+                System.out.println("creating user table");
 
                 return ResponseEntity.ok(registerSuccess.toString());
             }

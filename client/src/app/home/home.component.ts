@@ -51,4 +51,8 @@ export class HomeComponent implements OnInit {
   userProfile() {
     this.router.navigate(['/secure', 'username'])
   }
+
+  onUpload() {
+    this.router.navigate(['/upload'])
+  }
 }

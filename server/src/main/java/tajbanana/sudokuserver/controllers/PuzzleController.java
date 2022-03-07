@@ -2,15 +2,19 @@ package tajbanana.sudokuserver.controllers;
 
 import jakarta.json.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tajbanana.sudokuserver.models.Puzzle;
 import tajbanana.sudokuserver.repositories.SeedRepository;
 import tajbanana.sudokuserver.services.SudokuSolverService;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
@@ -26,6 +30,16 @@ public class PuzzleController {
 
     @Autowired
     SudokuSolverService sudokuSolver;
+
+    @PostMapping(path = "/solveimage")
+    public ResponseEntity<String> solveImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
+        System.out.println("Original Image Byte Size - " + file.getBytes().length);
+
+        FileOutputStream stream = new FileOutputStream("src/images/image.jpeg");
+        stream.write(file.getBytes());
+
+        return ResponseEntity.ok("image uploaded");
+    }
 
     @PostMapping(path = "/solve",
             consumes = MediaType.APPLICATION_JSON_VALUE,
