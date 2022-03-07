@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tajbanana.sudokuserver.models.Puzzle;
 import tajbanana.sudokuserver.repositories.SeedRepository;
 import tajbanana.sudokuserver.services.SudokuSolverService;
+import tajbanana.sudokuserver.services.opencv.SudokuImageSolverService;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
@@ -31,14 +32,20 @@ public class PuzzleController {
     @Autowired
     SudokuSolverService sudokuSolver;
 
+    @Autowired
+    SudokuImageSolverService imageService;
+
     @PostMapping(path = "/solveimage")
     public ResponseEntity<String> solveImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
         System.out.println("Original Image Byte Size - " + file.getBytes().length);
 
-        FileOutputStream stream = new FileOutputStream("src/images/image.jpeg");
-        stream.write(file.getBytes());
+        byte[] imageBytes = file.getBytes();
+        int[][] sudokuMatrix =  imageService.getSudokuMatrix(imageBytes);
+        int[][] sudokuSolution = sudokuSolver.getSudokuSolution(sudokuMatrix);
 
-        return ResponseEntity.ok("image uploaded");
+        JsonObject solutionObj = solutionToJson(sudokuSolution);
+
+        return ResponseEntity.ok(solutionObj.toString());
     }
 
     @PostMapping(path = "/solve",
@@ -70,21 +77,7 @@ public class PuzzleController {
             int[][] sudokuSolution = sudokuSolver.getSudokuSolution(sudokuArray);
             System.out.println(Arrays.deepToString(sudokuSolution));
 
-            JsonObjectBuilder solutionObjBuilder = Json.createObjectBuilder();
-            JsonArrayBuilder solutionArrayBuilder = Json.createArrayBuilder();
-
-            for (int[] row : sudokuSolution) {
-                JsonArrayBuilder rowArrayBuilder = Json.createArrayBuilder();
-                for (int value: row) {
-                    rowArrayBuilder.add(value);
-                }
-                solutionArrayBuilder.add(rowArrayBuilder);
-            }
-
-            JsonObject solutionObj = solutionObjBuilder
-                    .add("solution",solutionArrayBuilder)
-                    .build();
-
+            JsonObject solutionObj = solutionToJson(sudokuSolution);
 
             return ResponseEntity.ok(solutionObj.toString());
 
@@ -128,5 +121,22 @@ public class PuzzleController {
 
         return ResponseEntity.ok(puzzleObj.toString());
 
+    }
+
+    private JsonObject solutionToJson(int[][] sudokuSolution) {
+        JsonObjectBuilder solutionObjBuilder = Json.createObjectBuilder();
+        JsonArrayBuilder solutionArrayBuilder = Json.createArrayBuilder();
+
+        for (int[] row : sudokuSolution) {
+            JsonArrayBuilder rowArrayBuilder = Json.createArrayBuilder();
+            for (int value: row) {
+                rowArrayBuilder.add(value);
+            }
+            solutionArrayBuilder.add(rowArrayBuilder);
+        }
+
+        return solutionObjBuilder
+                .add("solution",solutionArrayBuilder)
+                .build();
     }
 }

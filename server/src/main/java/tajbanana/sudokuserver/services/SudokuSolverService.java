@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SudokuSolverService {
 
+    static int N = 9;
+
     public int[][] getSudokuSolution(int[][] grid) {
 
         if (solveSudoku(grid, 0, 0))
@@ -13,8 +15,6 @@ public class SudokuSolverService {
             System.out.println("No Solution exists");
         return grid;
     }
-
-    static int N = 9;
 
     static boolean solveSudoku(int[][] grid, int row, int col)
     {if (row == N - 1 && col == N) return true;

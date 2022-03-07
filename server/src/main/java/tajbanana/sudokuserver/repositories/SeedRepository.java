@@ -45,9 +45,6 @@ public class SeedRepository {
                 InputStream inputStream = new ClassPathResource(
                         "seed/" + difficulty + ".txt").getInputStream();
 
-                System.out.println("seed/" + difficulty + ".txt");
-                System.out.println(inputStream);
-
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(inputStream));
 

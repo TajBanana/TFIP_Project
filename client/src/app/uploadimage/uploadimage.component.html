@@ -2,3 +2,13 @@
 
 <input type="file" (change)="onFileSelect($event)">
 <button type="button" (click)="onUpload()">upload</button>
+<p *ngIf="uploadStatus">{{message}}</p>
+<hr>
+<div *ngIf="giveUp">
+  <h1 *ngFor="let row of sudokuSolution.solution; index as i">
+  <span *ngFor="let row of sudokuSolution.solution; index as j">
+    {{sudokuSolution.solution[i][j]}}
+  </span>
+  </h1>
+</div>
+

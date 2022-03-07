@@ -1,6 +1,5 @@
 package tajbanana.sudokuserver.controllers;
 
-import com.google.j2objc.annotations.AutoreleasePool;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
@@ -8,16 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tajbanana.sudokuserver.repositories.UserRepository;
 import tajbanana.sudokuserver.services.AuthenticateService;
-import tajbanana.sudokuserver.services.EmailService;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 
 @RestController
 public class RegisterController {
@@ -29,7 +28,7 @@ public class RegisterController {
     UserRepository userRepository;
 
     @Autowired
-    EmailService emailService;
+    private JavaMailSender javaMailSender;
 
     @PostMapping(path = "/register",
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -52,7 +51,7 @@ public class RegisterController {
                 System.out.println("creating user table");
 
                 try {
-                    emailService.sendEmail();
+                    sendEmail();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -69,5 +68,15 @@ public class RegisterController {
                 .build();
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(obj.toString());
+    }
+
+    public void sendEmail(){
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo("ytahjian@gmail.com");
+
+        msg.setSubject("Welcome to Sudoku");
+        msg.setText("Hello World \n Spring Boot Email");
+
+        javaMailSender.send(msg);
     }
 }
