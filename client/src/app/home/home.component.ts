@@ -22,8 +22,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     // TODO UNCOMMENT THIS TO GET QUOTE
-/*    this.sudokuService.getQuote()
-      .then(q => this.quote = q.quote);*/
+    this.sudokuService.getQuote()
+      .then(q => this.quote = q.quote);
 
     if (this.userService.getUser()) {
       this.username = this.userService.getUser()
